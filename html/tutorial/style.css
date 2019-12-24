@@ -2,6 +2,10 @@ html {
     background-color: green;
     font-size: 20px;
   }
+
+  p {
+    background-color: url("https://ashitani.jp/golangtips/gopher.png")
+  }
   
   ul {
     background: red;

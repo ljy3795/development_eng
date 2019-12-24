@@ -1,0 +1,91 @@
+<form>
+    <fieldset>
+        <legend>Fruit juice size</legend>
+        <p>
+        <input type="radio" name="size" id="size_1" value="small">
+        <label for="size_1">Small</label>
+        </p>
+        <p>
+        <input type="radio" name="size" id="size_2" value="medium">
+        <label for="size_2">Medium</label>
+        </p>
+        <p>
+        <input type="radio" name="size" id="size_3" value="large">
+        <label for="size_3">Large</label>
+        </p>
+    </fieldset>
+</form>
+
+<br>
+<form>
+    <fieldset>
+        <legend>Title</legend>
+            <ul>
+                <li>
+                    <label for="name">
+                        Name: <input type="text" id="name" name="user_name" />
+                    </label>
+                </li>
+                <li>
+                    <label for="mail">E-mail:</label>
+                    <input type="email" id="mail" name="user_mail" />
+                </li>
+                <li>
+                    <label for="msg">Message:</label>
+                    <textarea id="msg" name="user_message"></textarea>
+                </li>
+                <li class="button">
+                    <button type="submit">Send your message</button>
+                </li>
+            </ul>
+    </fieldset>
+</form>
+
+<form>
+    <fieldset>
+        <p>
+            <input type="checkbox" id="taste_1" name="taste_cherry" value="cherry">
+            <label for="taste_1">I like cherry</label>
+        </p>
+        <p>
+            <input type="checkbox" id="taste_2" name="taste_banana" value="banana">
+            <label for="taste_2">I like banana</label>
+        </p>
+    </fieldset>    
+</form>
+
+
+<form>
+    <fieldset>
+            <p>Required fields are followed by <abbr title="required">*</abbr>.</p>
+
+            <!-- So this: -->
+            <div>
+              <label for="username">Name:</label>
+              <input type="text" name="username">
+              <label for="username"><abbr title="required" aria-label="required">*</abbr></label>
+            </div>
+            
+            <!-- would be better done like this: -->
+            <div>
+              <label for="username">
+                <span>Name:</span>
+                <input id="username" type="text" name="username">
+                <abbr title="required" aria-label="required">*</abbr>
+              </label>
+            </div>
+            
+            <!-- But this is probably best: -->
+            <div>
+              <label for="username">Name: <abbr title="required" aria-label="required">*</abbr></label>
+              <input id="username" type="text" name="username">
+            </div>
+            
+            <!-- But this is probably best: -->
+            <div>
+              <label for="username">Name: <abbr title="required" aria-label="required">*</abbr></label>
+              <!-- <label for="username">Name: <abbr title="required" aria-label="required">*</abbr></label> -->
+              <input id="username" type="text" name="username">
+            </div>
+    </fieldset>
+</form>

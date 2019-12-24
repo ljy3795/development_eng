@@ -18,11 +18,68 @@
                 <ul>
                     <li>
                         <label for="title_1">King</label>
-                            <intput type="radio" id="title_1" name="title_1" value="K">
+                        <input type="radio" id="title_1" name="title_1" value="K">
+                    </li>
+                    <li>
+                        <label for="title_2">Queen</label>
+                        <input type="radio" id="title_1" name="title_1" value="Q">
+                    </li>
+                    <li>
+                        <label for="title_3">Joker</label>
+                        <input type="radio" id="title_1" name="title_1" value="J">
                     </li>
                 </ul>
             </fieldset>
-            
+            <p>
+                <label for='name'>
+                    <span>Name: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="text" id="name" name="username">
+            </p>
+            <p>
+                <label for='mail'>
+                    <span>E-mail: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="email" id="mail" name="usermail">
+            </p>
+            <p>
+                <label for='pwd'>
+                    <span>Password: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="password" id="pwd" name="password">
+            </p>
+        </section>
+
+        <section>
+            <h2>Payment Information</h2>
+            <p>
+                <label for="card">
+                    <span>Card type: </span>
+                </label>
+                <select id="card" name="usercard">
+                    <option value="visa">Visa</option>
+                    <option value="mc">Mastercard</option>
+                    <option value="amex">American Express</option>
+                </select>
+            </p>
+            <p>
+                <label for="number">
+                    <span>Card number: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                </label>
+                <input type="tel" id="number" name="cardnumber">
+            </p>
+            <p>
+                <label for="date">
+                    <span>Expiration Date: </span>
+                    <strong><abbr title="required">*</abbr></strong>
+                    <em>formatted as mm/yy</em>
+                </label>
+                <input type="date" id="date" name="Expiration">
+            </p>
         </section>
     </form>
   </body>

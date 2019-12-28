@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Err Example</title>
+    <link rel="stylesheet" href="style_css.css">
+  </head>
+
+  <body>
+    
+    <!-- novalidate Attribute -->
+    <form novalidate>
+        <p>
+            <label for="mail">
+            <span>Please enter an email address:</span>
+            <input type="email" id="mail" name="mail">
+            <span class="error" aria-live="polite"></span>
+            <script src="error_msg.js"></script>
+            </label>
+        </p>
+        <button>Submit</button>
+    </form>
+  </body>
+</html>

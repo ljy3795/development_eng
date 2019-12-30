@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Conflict example</title>
+  </head>
+
+  <body>
+    <p>My body</p>
+    <script src="second.js"></script>
+    <script src="first.js"></script>
+    <script>
+        // greeting() from first.js is not operated
+      greeting();
+    </script>
+  </body>
+</html>

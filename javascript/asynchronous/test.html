@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple synchronous JavaScript example</title>
+  </head>
+  <body>
+    <button>Click me</button>
+    <script>
+      const btn = document.querySelector('button');
+      btn.addEventListener('click', select_fn);
+
+      function select_fn(){
+          alert('You clicked me');
+
+          let pElem = document.createElement('p');
+          pElem.textContent = 'Hello!'
+          document.body.appendChild(pElem)
+      }
+    </script>
+  </body>
+</html>

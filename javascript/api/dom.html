@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple DOM example</title>
+    <style>
+        .highlight {
+            color: blue;
+            background-color: black;
+            padding: 10px;
+            width: 250px;
+            text-align: center;
+        }
+    </style>
+  </head>
+  <body>
+      <section>
+        <img src="https://github.com/mdn/learning-area/blob/master/javascript/apis/document-manipulation/dinosaur.png?raw=true" alt="A red Tyrannosaurus Rex: A two legged dinosaur standing upright like a human, with small arms, and a large head with lots of sharp teeth.">
+        <p>Here we will add a link to the <a href="https://www.mozilla.org/">Mozilla homepage</a></p>
+      </section>
+      <script>
+          const link = document.querySelector('a')
+          link.textContent = "Naver Homepage"
+          link.href = "https://www.naver.com."
+
+          const section = document.querySelector('section');
+          const para = document.createElement('p');
+          para.textContent = "Hello";
+          section.appendChild(para);
+
+          const txt = document.createTextNode('Hello World');
+          para.appendChild(txt);
+
+        //   para.style.color = 'white';
+        //   para.style.backgroundColor = 'black';
+        //   para.style.padding = '10px';
+        //   para.style.width = '250px';
+        //   para.style.textAlign = 'center';
+          para.setAttribute('class', 'highlight');
+
+          const img = document.querySelector('img');
+          img.width = window.innerWidth/2;
+          img.height = window.innerHeight/2;
+      </script>
+  </body>
+</html>

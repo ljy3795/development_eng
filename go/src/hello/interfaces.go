@@ -39,6 +39,7 @@ func main() {
 
 	c := Circle{x: 0, y: 0, radius: 5}
 	r := Rectangle{width: 10, height: 5}
+	fmt.Println(c)
 
 	fmt.Println("Area for Circls is :")
 	fmt.Println(c.area())

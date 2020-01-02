@@ -4,6 +4,11 @@ import "fmt"
 
 //[(])
 func isBalanced(p string) bool {
+	// define map
+	moons := make(map[string]string)
+	moons["Earth"] = "Moon"
+	moons["Jupiter"] = "Europa"
+	fmt.Println(moons)
 
 	pairs := map[rune]rune{'(': ')', '{': '}', '[': ']'}
 	stack := []rune{}

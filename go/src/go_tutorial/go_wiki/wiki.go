@@ -40,7 +40,11 @@ func renderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, p *Page
 // View Handler (for WIKI Page)
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
-	p, _ := loadPage(title)
+	p, err := loadPage(title)
+	if err != nil {
+		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
+		return
+	}
 	// fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
 
 	// [with template]
@@ -71,6 +75,15 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, r, "edit", p)
 }
 
+// Save Handler
+func saveHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/save/"):]
+	body := r.FormValue("body")
+	p := &Page{Title: title, Body: []byte(body)}
+	p.save()
+	http.Redirect(w, r, "/view/"+title, http.StatusFound)
+}
+
 // main function
 func main() {
 	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
@@ -81,6 +94,7 @@ func main() {
 
 	http.HandleFunc("/view/", viewHandler)
 	http.HandleFunc("/edit/", editHandler)
+	http.HandleFunc("/save/", saveHandler)
 	// http.HandleFunc("/save/", viewHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

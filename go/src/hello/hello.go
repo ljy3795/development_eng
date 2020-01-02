@@ -3,8 +3,8 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"go_tutorial/string_util"
 	"math"
-	"github.com/jylee/go_tutorial/string_util"
 )
 
 var test string = "aa"
@@ -88,5 +88,4 @@ func main() {
 	// when we import use full path, but using use last part of the name (string_util)
 	test_str := "reverse me"
 	fmt.Println(string_util.Reverse(test_str))
-
 }

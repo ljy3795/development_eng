@@ -4,14 +4,16 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] Loaded HTML Templates (4): 
+[GIN-debug] Loaded HTML Templates (5): 
 	- edit.html
 	- index.html
 	- view.html
 	- 
+	- alert.html
 
-[GIN-debug] GET    /index                    --> main.main.func2 (3 handlers)
 [GIN-debug] GET    /view/:dt/:region         --> mls_bootcamp/handler.ViewHandler (3 handlers)
-[GIN-debug] POST   /edit/:dt/:region         --> mls_bootcamp/handler.EditHandler (3 handlers)
+[GIN-debug] GET    /edit/:dt/:region         --> mls_bootcamp/handler.EditHandler (3 handlers)
+[GIN-debug] POST   /delete/:dt/:region       --> mls_bootcamp/handler.DeleteHandler (3 handlers)
 [GIN-debug] POST   /save/:dt/:region         --> mls_bootcamp/handler.SaveHandler (3 handlers)
 [GIN-debug] Listening and serving HTTP on :8080
+[GIN] 2020/01/10 - 20:13:44 | 200 |    2.351117ms |             ::1 | GET      /view/20200106/강남구

@@ -68,10 +68,13 @@
     </table>
 
 
-    <form action="/edit/{{.org_dt}}/{{.region}}" method="POST">
-        <input type="submit" name="edit" value="Edit">
-    </from>
+    <form name="form" method="GET">
+      <input type="submit" name="edit" value="Edit" formaction="/edit/{{.org_dt}}/{{.region}}">
+    </form>
 
-
+    <form name="form" method="POST">
+        <input type="submit" name="delete" value="Delete"formaction="/delete/{{.org_dt}}/{{.region}}" onclick="return confirm('Are you sure you want to DELETE Really?')">
+    </form>
+    
   </body>
 </html>

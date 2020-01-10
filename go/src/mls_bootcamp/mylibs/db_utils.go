@@ -3,17 +3,23 @@ package mylibs
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql" // mySQL package
 	"log"
-
-	_ "github.com/go-sql-driver/mysql"
+	"os"
 )
 
-var myLogger *log.Logger
+// DB is Database Connection instance
+var DB *sql.DB
 
+func init() {
+	DB = DbConn()
+}
+
+// DbConn returns the Database connection to MariaDB
 func DbConn() (db *sql.DB) {
 	dbDriver := "mysql"
-	dbUser := "colin"
-	dbPass := "aa"
+	dbUser := os.Getenv("MARIADB_USER")
+	dbPass := os.Getenv("MARIADB_PASS")
 	dbName := "comm"
 	dbAddr := "127.0.0.1"
 	dbPort := "3306"
@@ -23,63 +29,72 @@ func DbConn() (db *sql.DB) {
 		log.Fatal(err)
 	}
 
+	db.SetMaxOpenConns(100)
+	db.SetMaxIdleConns(50)
+
 	return db
 }
 
+// ReplaceQuery returns the number of inserted rows by a query
 func ReplaceQuery(db *sql.DB, rows []ROW) int64 {
-	var ins_rows int64
+	var insertedRows int64
+
 	for i := 0; i < len(rows); i++ {
-		tmp_res := rows[i]
-		result, err := db.Exec("REPLACE INTO pm2_daily VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-			tmp_res.MSRDTDE,  // 일자
-			tmp_res.MSRSTENM, // 지역
-			tmp_res.NO2,
-			tmp_res.O3,
-			tmp_res.CO,
-			tmp_res.SO2,
-			tmp_res.PM10,
-			tmp_res.PM25)
+		tempResult := rows[i]
+		queryResults, err := db.Exec("REPLACE INTO pm2_daily VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+			tempResult.DT,     // 일자
+			tempResult.REGION, // 지역
+			tempResult.NO2,
+			tempResult.O3,
+			tempResult.CO,
+			tempResult.SO2,
+			tempResult.PM10,
+			tempResult.PM25)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		up_int, _ := result.RowsAffected()
-		ins_rows += up_int
+		resultCounts, _ := queryResults.RowsAffected()
+		insertedRows += resultCounts
 	}
-	return ins_rows
+	return insertedRows
 }
 
-// delete row by primary key columns (dt, region)
-func DeleteRow(db *sql.DB, dt string, region string) {
-	table_name := "pm2_daily"
-	qry := fmt.Sprintf("DELETE FROM %s WHERE (dt = '%s' AND region = '%s')", table_name, dt, region)
-	fmt.Println(qry)
+// DeleteRow do delete SQL operation by primary kyes(dt / region)
+func DeleteRow(db *sql.DB, dt string, region string) error {
+	tableName := "pm2_daily"
+	query := fmt.Sprintf("DELETE FROM %s WHERE (dt = '%s' AND region = '%s')", tableName, dt, region)
 
-	drop_q, err := db.Query(qry)
+	queryResults, err := db.Query(query)
 
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 
-	drop_q.Close()
+	queryResults.Close()
+
+	return nil
 }
 
-func SelectRows(db *sql.DB, qry string) []*ROW {
-	res := make([]*ROW, 0)
+// SelectRows returns ROW struct retrieved by SQL SELECT
+func SelectRows(db *sql.DB, qry string) ([]*ROW, error) {
+	results := make([]*ROW, 0)
 
-	results, err := db.Query(qry)
+	queryResults, err := db.Query(qry)
 	if err != nil {
-		panic(err.Error)
+		return nil, err
 	}
 
-	for results.Next() {
-		tmp_res := new(ROW)
-		err = results.Scan(&tmp_res.MSRDTDE, &tmp_res.MSRSTENM, &tmp_res.NO2, &tmp_res.O3, &tmp_res.CO, &tmp_res.SO2, &tmp_res.PM10, &tmp_res.PM25)
+	for queryResults.Next() {
+		tempResults := new(ROW)
+		err = queryResults.Scan(&tempResults.DT, &tempResults.REGION, &tempResults.NO2, &tempResults.O3, &tempResults.CO, &tempResults.SO2, &tempResults.PM10, &tempResults.PM25)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
-		res = append(res, tmp_res)
+		results = append(results, tempResults)
 	}
 
-	return res
+	queryResults.Close()
+
+	return results, nil
 }

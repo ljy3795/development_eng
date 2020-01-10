@@ -68,12 +68,12 @@ func renderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, p *Page
 }
 
 // View Handler (for WIKI Page)
-func viewHandler(w http.ResponseWriter, r *http.Request) {
+func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	// title := r.URL.Path[len("/view/"):]
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
+	// title, err := getTitle(w, r)
+	// if err != nil {
+	// 	return
+	// }
 
 	p, err := loadPage(title)
 	if err != nil {
@@ -89,12 +89,12 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Edit Handler
-func editHandler(w http.ResponseWriter, r *http.Request) {
+func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	// title := r.URL.Path[len("/edit/"):]
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
+	// title, err := getTitle(w, r)
+	// if err != nil {
+	// 	return
+	// }
 
 	p, err := loadPage(title)
 	if err != nil {
@@ -116,21 +116,39 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Save Handler
-func saveHandler(w http.ResponseWriter, r *http.Request) {
+func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	// title := r.URL.Path[len("/save/"):]
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
+	// title, err := getTitle(w, r)
+	// if err != nil {
+	// 	return
+	// }
 
 	body := r.FormValue("body") // get values from "NAME='body'" in the form of HTML
 	p := &Page{Title: title, Body: []byte(body)}
-	err = p.save()
+	err := p.save()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
+}
+
+// wrapper function takes three handlers and return http.HandlerFunc
+//  http.HandlerFunc is suitable to be passed to the function http.HandleFunc
+
+// CLOSURE인 이유
+//  --> the variable fn is enclosed by the closure
+//  --> extract title & validate 
+func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request){
+		m := validPath.FindStringSubmatch(r.URL.Path)
+		if m == nil {
+			http.NotFound(w,r)
+			return
+		}
+		// valid title then the enclosed handler function fn will be called
+		fn(w, r, m[2])
+	}
 }
 
 
@@ -142,9 +160,9 @@ func main() {
 	p2, _ := loadPage("TestPage")
 	fmt.Println(string(p2.Body))
 
-	http.HandleFunc("/view/", viewHandler)
-	http.HandleFunc("/edit/", editHandler)
-	http.HandleFunc("/save/", saveHandler)
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/edit/", makeHandler(editHandler))
+	http.HandleFunc("/save/", makeHandler(saveHandler))
 	// http.HandleFunc("/save/", viewHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

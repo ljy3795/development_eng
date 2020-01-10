@@ -14,8 +14,10 @@ func check(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	port_num := "8080"
+
 	http.HandleFunc("/", index)
 	http.HandleFunc("/health_check", check)
-	fmt.Println("Server starting...")
-	http.ListenAndServe(":3000", nil)
+	fmt.Println("Server starting... at " + port_num)
+	http.ListenAndServe(":" + port_num, nil)
 }

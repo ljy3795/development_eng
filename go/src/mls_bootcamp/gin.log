@@ -1,0 +1,17 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] Loaded HTML Templates (4): 
+	- edit.html
+	- index.html
+	- view.html
+	- 
+
+[GIN-debug] GET    /index                    --> main.main.func2 (3 handlers)
+[GIN-debug] GET    /view/:dt/:region         --> mls_bootcamp/handler.ViewHandler (3 handlers)
+[GIN-debug] POST   /edit/:dt/:region         --> mls_bootcamp/handler.EditHandler (3 handlers)
+[GIN-debug] POST   /save/:dt/:region         --> mls_bootcamp/handler.SaveHandler (3 handlers)
+[GIN-debug] Listening and serving HTTP on :8080

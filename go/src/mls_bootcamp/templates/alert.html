@@ -7,7 +7,7 @@
   </head>
   <body>
         <script>
-          window.alert('Successfully Removed. Redriect to Add(Edit) Page');
+          window.alert("{{ .message }}. Redriect to Add(Edit) Page");
           window.location.href="/edit/{{.org_dt}}/{{.region}}";
         </script>
   </body>

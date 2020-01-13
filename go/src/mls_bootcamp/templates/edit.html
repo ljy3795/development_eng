@@ -43,7 +43,7 @@
     <!-- <link href="./template/minimal-table.css" rel="stylesheet" type="text/css"> -->
   </head>
   <body>
-    <h1>[Edit] 미세먼지 수치 : {{ .dt }}일,  {{ .region }} 지역</h1>
+    <h1>[{{ .type }}] 미세먼지 수치 : {{ .dt }}일,  {{ .region }} 지역</h1>
 
     <form action="/save/{{.org_dt}}/{{.region}}" method="POST">
         <div>

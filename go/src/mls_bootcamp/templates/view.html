@@ -75,6 +75,10 @@
     <form name="form" method="POST">
         <input type="submit" name="delete" value="Delete"formaction="/delete/{{.org_dt}}/{{.region}}" onclick="return confirm('Are you sure you want to DELETE Really?')">
     </form>
+
+    <form name="form" method="POST">
+      <input type="submit" name="add" value="ADD NEW" formaction="/add/{{.org_dt}}">
+    </form>
     
   </body>
 </html>

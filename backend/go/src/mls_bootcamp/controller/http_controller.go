@@ -20,7 +20,7 @@ func ViewHandler(c *gin.Context) {
 	res, err := clients.SelectRow(dt, region)
 
 	if err != nil && err.Error() != "record not found" {
-		c.String(http.StatusOK, fmt.Sprintf("Error %s", err.Error()))
+		c.String(http.StatusOK, fmt.Sprintf("Error %s", err.Error())) // c.Json
 	} else if res == (models.AirQualityDaily{}) {
 		c.HTML(http.StatusOK, "alert.html", gin.H{
 			"message": "No Data!",
@@ -82,6 +82,7 @@ func SaveHandler(c *gin.Context) {
 	dt := c.Param("dt")
 	region := c.PostForm("region")
 
+	// Error 받아서 redirect or JS에서 해결
 	no2, _ := strconv.ParseFloat(c.PostForm("no2"), 64)
 	o3, _ := strconv.ParseFloat(c.PostForm("o3"), 64)
 	co, _ := strconv.ParseFloat(c.PostForm("co"), 64)

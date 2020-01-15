@@ -5,12 +5,12 @@
  - using code:	gin.SetMode(gin.ReleaseMode)
 
 [GIN-debug] Loaded HTML Templates (6): 
+	- alert.html
+	- edit.html
 	- index.html
 	- view.html
 	- 
 	- add.html
-	- alert.html
-	- edit.html
 
 [GIN-debug] GET    /view/:dt/:region         --> mls_bootcamp/controller.ViewHandler (3 handlers)
 [GIN-debug] GET    /edit/:dt/:region         --> mls_bootcamp/controller.EditHandler (3 handlers)
@@ -19,4 +19,5 @@
 [GIN-debug] POST   /add/:dt                  --> mls_bootcamp/controller.AddHandler (3 handlers)
 [GIN-debug] POST   /add_save                 --> mls_bootcamp/controller.AddSaveHandler (3 handlers)
 [GIN-debug] Listening and serving HTTP on :8080
-[GIN] 2020/01/13 - 20:51:32 | 200 |    3.924601ms |             ::1 | GET      /view/20200101/강남구
+[GIN] 2020/01/15 - 21:05:44 | 200 |    5.059364ms |             ::1 | GET      /view/20200112/강남구
+[GIN] 2020/01/15 - 21:05:44 | 404 |       1.145µs |             ::1 | GET      /favicon.ico

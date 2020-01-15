@@ -61,17 +61,12 @@ func main() {
 		backfillStartDate = backfillStartDate.AddDate(0, 0, -1)
 	}
 
-	dailyAPICall()
-
 	// 1) Scheduler for daily API Call (everyday on 9am)
 	c := cron.New()
 	c.AddFunc("0 8 * * *", func() {
 		dailyAPICall()
 	})
 	c.Start()
-	// sig := make(chan os.Signal)
-	// signal.Notify(sig, os.Interrupt, os.Kill)
-	// <-sig
 
 	// 2) Web Handler
 	// logger
@@ -82,9 +77,6 @@ func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
 
-	//  (1) Viewer
-	//  (2) Editor
-	//  (3) Deletor
 	r.GET("/view/:dt/:region", controller.ViewHandler) // view/20200101/강남구
 	r.GET("/edit/:dt/:region", controller.EditHandler)
 	r.POST("/delete/:dt/:region", controller.DeleteHandler)

@@ -26,7 +26,8 @@ class PhoneForm extends Component {
     }
 
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // PhoneForm(App.js) -> onChange -> state -> onSubmit -> HandleSubmit -> onCreate (App.js -> 부모 component에 state를 전달)
+    // PhoneForm(App.js) -> onChange(PhoneForm.js) -> state(PhoneForm.js) -> onSubmit -> HandleSubmit -> onCreate (App.js -> 부모 component에 state를 전달) -> handleCreate
+    //    onCreate는 parent Component에서 props로 넘겨줌
     render(){
         return (
             <form onSubmit={this.handleSubmit}>

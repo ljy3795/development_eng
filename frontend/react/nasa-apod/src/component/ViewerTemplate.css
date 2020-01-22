@@ -1,0 +1,14 @@
+.ViewerTemplate {
+  text-align: center;
+  background-color: #282c34;
+}
+
+.ViewerTemplate-header {
+background-color: #0d0e0f;
+display: flex;
+align-items: center;
+justify-content: top;
+font-size: calc(10px + 2vmin);
+color: white;
+min-height: 4rem;
+}

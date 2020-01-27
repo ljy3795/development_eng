@@ -20,12 +20,16 @@
 
 ### Bootcamp
 - **Basics**
-  - git : https://learngitbranching.js.org/
-  - python : https://docs.google.com/document/d/1p7op_bQURuW0dRkaAbcnHn5_pbxfhVEJgEigCBo2cZg/edit#heading=h.ql6ig3pd3vhi
-  - go : https://docs.google.com/document/d/1fh-efmn4YyOYgSutDRDWTPADTeGTuSD0NaE688jdDo0/edit#heading=h.6y0smk1l8amz
+  - git :
+     - https://learngitbranching.js.org/
+  - python : 
+     - https://docs.google.com/document/d/1p7op_bQURuW0dRkaAbcnHn5_pbxfhVEJgEigCBo2cZg/edit#heading=h.ql6ig3pd3vhi
+  - go : 
+     - https://docs.google.com/document/d/1fh-efmn4YyOYgSutDRDWTPADTeGTuSD0NaE688jdDo0/edit#heading=h.6y0smk1l8amz
   
 - **Assignment**
-  - Take-home : https://docs.google.com/document/d/1b9CRwoiy20sWLdmb0JL3fSJJZLebRX6USyfssZZQcMY/edit#heading=h.m874wemrtk4
+  - Take-home : 
+     - https://docs.google.com/document/d/1b9CRwoiy20sWLdmb0JL3fSJJZLebRX6USyfssZZQcMY/edit#heading=h.m874wemrtk4
 
 
 --- 

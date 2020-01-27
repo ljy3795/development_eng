@@ -19,4 +19,4 @@ RUN npm install react-scripts -g --silent
 CMD ["yarn", "start"]
 
 
-#docker run -d -p 3000:3000 --rm -v ${PWD}:/app -v /app/node_modules --name go-mls-bootcamp-react mls-bootcamp-react:latest
+# docker run -d -p 3000:3000 --rm -v ${PWD}:/app -v /app/node_modules --name go-mls-bootcamp-react mls-bootcamp-react:latest

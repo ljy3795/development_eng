@@ -17,4 +17,33 @@
   - React (ref. https://velopert.com/3613)
   
 ---
- 
+
+### Bootcamp
+- **Basics**
+  - git : https://learngitbranching.js.org/
+  - python : https://docs.google.com/document/d/1p7op_bQURuW0dRkaAbcnHn5_pbxfhVEJgEigCBo2cZg/edit#heading=h.ql6ig3pd3vhi
+  - go : https://docs.google.com/document/d/1fh-efmn4YyOYgSutDRDWTPADTeGTuSD0NaE688jdDo0/edit#heading=h.6y0smk1l8amz
+  
+- **Assignment**
+  - Take-home : https://docs.google.com/document/d/1b9CRwoiy20sWLdmb0JL3fSJJZLebRX6USyfssZZQcMY/edit#heading=h.m874wemrtk4
+
+
+--- 
+### Assignment
+- A simple service of PM2.5(초미세먼지) from 서울 Open API
+- With three microservices of DB / Backend (Go) / Frotnend (React)
+
+#### Step 1. 
+- DB (RDS) / Backend (Go) / Frontend (HTML on Go)
+
+#### Step 2. 
+- DB (RDS) / Backend (Go) / Frontend (React)
+
+- DB Spec
+- Backend 
+  - Tree structure
+  - four API services
+- Frontend
+
+---
+### 느낀점

@@ -1,0 +1,35 @@
+.left-end {
+    display: flex;
+    font-size: calc(10px + 3vmin);
+    color: rgb(85, 83, 83);
+    /* float: left; */
+    margin: 0;
+    position: absolute;
+    top: 19vh;
+    left:3vh;
+  }
+  
+  .right-end {
+    display: flex;
+    font-size: calc(10px + 3vmin);
+    color: rgb(85, 83, 83);
+    /* float: right; */
+    margin: 0;
+    position: absolute;
+    top: 19vh;
+    right:3vh;
+  }
+    
+  
+  
+  
+  .Navigator-header {
+  background-color: #0d0e0f;
+  display: flex;
+  align-items: center;
+  justify-content: top;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  min-height: 4rem;
+  }
+  

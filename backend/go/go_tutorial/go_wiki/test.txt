@@ -1,0 +1,4 @@
+Hello GoLang.
+I am using html/template package.
+Just added 302 redirect for the non-exist pages.
+Also, the "save" should work now.

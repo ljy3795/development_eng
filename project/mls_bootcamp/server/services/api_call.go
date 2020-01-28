@@ -40,8 +40,8 @@ func GetFromAPI(startPage int, endPage int, apiCallDate time.Time) (int, models.
 	}
 
 	resultCount := pm2.PM2.CallResultCount
-	resultStatus := pm2.PM2.Status // API 호출 결과
-	resultDetail := pm2.PM2.AirQualityDaily    // API 호출 rows
+	resultStatus := pm2.PM2.Status          // API 호출 결과
+	resultDetail := pm2.PM2.AirQualityDaily // API 호출 rows
 
 	if resultStatus.Code != "INFO-000" {
 		errorMessage := fmt.Sprintf("API Call status FAIL : CODE = '%s' / MESSAGE = '%s')\n", resultStatus.Code, resultStatus.Message)

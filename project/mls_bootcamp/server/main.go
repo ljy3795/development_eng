@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -25,7 +26,7 @@ func dailyAPICall() {
 
 	_, _, rows, err := services.GetFromAPI(startPage, endPage, apiCallDate)
 	if err != nil {
-		log.Fatal(err.Error())
+		fmt.Println(err.Error())
 		return
 	}
 
@@ -44,7 +45,7 @@ func main() {
 
 	// 0) Backfill
 	backfillStartDate := time.Now().AddDate(0, 0, -1)
-	backfillCounts := 30
+	backfillCounts := 1
 
 	for i := 0; i < backfillCounts; i++ {
 		startPage := 1
@@ -52,7 +53,7 @@ func main() {
 
 		_, _, rows, err := services.GetFromAPI(startPage, endPage, backfillStartDate)
 		if err != nil {
-			log.Fatal(err.Error())
+			fmt.Println(err.Error())
 		}
 
 		insertedRows := services.InsertAPIRows(rows)

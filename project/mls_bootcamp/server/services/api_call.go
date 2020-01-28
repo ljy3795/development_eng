@@ -5,17 +5,12 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"mls_bootcamp/clients"
 	"mls_bootcamp/models"
 	"net/http"
 	"os"
 	"time"
 )
-
-// func (row *ROW) getQueryStatement() {
-// 	return fmt.Sprintf("")
-// }
 
 // GetFromAPI returns API result (APICall resultCount, resultStatus, resultDetail)
 func GetFromAPI(startPage int, endPage int, apiCallDate time.Time) (int, models.Status, []models.AirQualityDaily, error) {
@@ -45,7 +40,7 @@ func GetFromAPI(startPage int, endPage int, apiCallDate time.Time) (int, models.
 
 	if resultStatus.Code != "INFO-000" {
 		errorMessage := fmt.Sprintf("API Call status FAIL : CODE = '%s' / MESSAGE = '%s')\n", resultStatus.Code, resultStatus.Message)
-		log.Fatal(errorMessage)
+		fmt.Println(errorMessage)
 		return 0, models.Status{}, nil, errors.New(errorMessage)
 	}
 

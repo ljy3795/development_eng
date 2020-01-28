@@ -30,11 +30,6 @@ func DbConn() (db *gorm.DB) {
 	dbPort := os.Getenv("MARIADB_PORT")
 	dbName := "comm"
 
-	fmt.Println(dbUser)
-	fmt.Println(dbPass)
-	fmt.Println(dbAddr)
-	fmt.Println(dbPort)
-
 	db, err := gorm.Open(dbDriver, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbAddr, dbPort, dbName))
 	if err != nil {
 		log.Fatal(err)
@@ -79,7 +74,6 @@ func DeleteRow(dt string, region string) error {
 	if err != nil {
 		return err
 	}
-	// fmt.Printf("The row with dt = %s / region = %s is deleted\n", dt, region)
 	return nil
 }
 

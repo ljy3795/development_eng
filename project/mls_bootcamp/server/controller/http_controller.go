@@ -22,7 +22,7 @@ func ReadHandler(c *gin.Context) {
 			"message": err.Error(),
 		})
 	} else if res == (models.AirQualityDaily{}) {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusNotFound, gin.H{
 			"message": "No Data!",
 		})
 	} else {

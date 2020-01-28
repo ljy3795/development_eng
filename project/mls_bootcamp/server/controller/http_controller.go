@@ -73,7 +73,7 @@ func CreateHandler(c *gin.Context) {
 	pm25, _ := strconv.ParseFloat(c.PostForm("pm25"), 64)
 
 	// make struct to edit data
-	row := models.AirQualityDaily{DT: dt, REGION: region, NO2: no2, O3: o3, CO: co, SO2: so2, PM10: pm10, PM25: pm25}
+	row := models.AirQualityDaily{DT: dt, Region: region, NO2: no2, O3: o3, CO: co, SO2: so2, PM10: pm10, PM25: pm25}
 
 	_, err := clients.SelectRow(dt, region)
 

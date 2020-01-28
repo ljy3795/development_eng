@@ -18,7 +18,7 @@ import (
 // }
 
 // GetFromAPI returns API result (APICall resultCount, resultStatus, resultDetail)
-func GetFromAPI(startPage int, endPage int, apiCallDate time.Time) (int, models.STATUS, []models.ROW, error) {
+func GetFromAPI(startPage int, endPage int, apiCallDate time.Time) (int, models.Status, []models.AirQualityDaily, error) {
 	apiCallDateString := apiCallDate.Format("20060102")
 
 	apiKey := os.Getenv("SEOUL_API_KEY")
@@ -26,34 +26,34 @@ func GetFromAPI(startPage int, endPage int, apiCallDate time.Time) (int, models.
 
 	results, err := http.Get(urlString)
 	if err != nil {
-		return 0, models.STATUS{}, nil, err
+		return 0, models.Status{}, nil, err
 	}
 
 	byteData, err := ioutil.ReadAll(results.Body)
 	if err != nil {
-		return 0, models.STATUS{}, nil, err
+		return 0, models.Status{}, nil, err
 	}
 
 	var pm2 models.PM2
 	if err := json.Unmarshal(byteData, &pm2); err != nil {
-		return 0, models.STATUS{}, nil, err
+		return 0, models.Status{}, nil, err
 	}
 
-	resultCount := pm2.PM2.CALLRESULTCOUNT
-	resultStatus := pm2.PM2.STATUS // API 호출 결과
-	resultDetail := pm2.PM2.ROW    // API 호출 rows
+	resultCount := pm2.PM2.CallResultCount
+	resultStatus := pm2.PM2.Status // API 호출 결과
+	resultDetail := pm2.PM2.AirQualityDaily    // API 호출 rows
 
-	if resultStatus.CODE != "INFO-000" {
-		errorMessage := fmt.Sprintf("API Call status FAIL : CODE = '%s' / MESSAGE = '%s')\n", resultStatus.CODE, resultStatus.MESSAGE)
+	if resultStatus.Code != "INFO-000" {
+		errorMessage := fmt.Sprintf("API Call status FAIL : CODE = '%s' / MESSAGE = '%s')\n", resultStatus.Code, resultStatus.Message)
 		log.Fatal(errorMessage)
-		return 0, models.STATUS{}, nil, errors.New(errorMessage)
+		return 0, models.Status{}, nil, errors.New(errorMessage)
 	}
 
 	return resultCount, resultStatus, resultDetail, nil
 }
 
 // InsertAPIRows creates new intserted rows retreived by API Call
-func InsertAPIRows(rows []models.ROW) int64 {
+func InsertAPIRows(rows []models.AirQualityDaily) int64 {
 	var insertedRows int64
 
 	for i := 0; i < len(rows); i++ {

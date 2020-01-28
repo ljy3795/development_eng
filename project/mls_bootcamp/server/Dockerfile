@@ -1,4 +1,4 @@
-# docker build -t mls-bootcamp:server .
+# docker build -t mls-bootcamp-server .
 FROM golang:alpine
 
 # Make App

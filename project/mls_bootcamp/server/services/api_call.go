@@ -51,14 +51,16 @@ func GetFromAPI(startPage int, endPage int, apiCallDate time.Time) (int, models.
 func InsertAPIRows(rows []models.AirQualityDaily) int64 {
 	var insertedRows int64
 
-	for i := 0; i < len(rows); i++ {
-		tempResult := models.AirQualityDaily(rows[i])
+	for _, row := range rows {
+		tempResult := models.AirQualityDaily(row)
 
 		err := clients.CreateNewRow(tempResult)
 		if err != nil {
 			clients.UpdateRow(tempResult)
 		}
 		insertedRows++
+
 	}
+
 	return insertedRows
 }

@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 // ReadHandler rederes view page retrieved by RDS SELECT query results
@@ -16,12 +17,12 @@ func ReadHandler(c *gin.Context) {
 
 	res, err := clients.SelectRow(dt, region)
 
-	c.Header("Access-Control-Allow-Origin", "*")
-	if err != nil && err.Error() != "record not found" {
+	// c.Header("Access-Control-Allow-Origin", "*")
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
-	} else if res == (models.AirQualityDaily{}) {
+	} else if gorm.IsRecordNotFoundError(err) {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "No Data!",
 		})
@@ -46,7 +47,6 @@ func DeleteHandler(c *gin.Context) {
 
 	err := clients.DeleteRow(dt, region)
 
-	c.Header("Access-Control-Allow-Origin", "*")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
@@ -64,7 +64,6 @@ func CreateHandler(c *gin.Context) {
 	dt := c.PostForm("dt")
 	region := c.PostForm("region")
 
-	// Error 받아서 redirect or JS에서 해결
 	no2, _ := strconv.ParseFloat(c.PostForm("no2"), 64)
 	o3, _ := strconv.ParseFloat(c.PostForm("o3"), 64)
 	co, _ := strconv.ParseFloat(c.PostForm("co"), 64)
@@ -77,14 +76,14 @@ func CreateHandler(c *gin.Context) {
 
 	_, err := clients.SelectRow(dt, region)
 
-	c.Header("Access-Control-Allow-Origin", "*")
-	if err != nil && err.Error() == "record not found" {
+	if err != nil && gorm.IsRecordNotFoundError(err) {
 		clients.CreateNewRow(row)
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Successfully Added",
 		})
 	} else {
 		err := clients.UpdateRow(row)
+		// err를 보고 client or server 이슈에 따라 code 다르게
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"message": err.Error(),

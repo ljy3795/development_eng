@@ -19,6 +19,15 @@ class AdderTemplate extends Component {
         form.append('pm10',data.pm10)
         form.append('pm25',data.pm25)
 
+        console.log(typeof(data.dt))
+        console.log(typeof(data.region))
+        console.log(typeof(data.no2))
+        console.log(typeof(data.o3))
+        console.log(typeof(data.co))
+        console.log(typeof(data.so2))
+        console.log(typeof(data.pm10))
+        console.log(typeof(data.pm25))
+
         this.createAPI(form)
     }
 

@@ -49,6 +49,7 @@ class ViewerTemplate extends Component {
 
         } catch (e) {
             console.log(e)
+            alert("HTTP Status : " + e.response.status + ",  " + e.response.data.message)
         }
     };
 
@@ -64,10 +65,26 @@ class ViewerTemplate extends Component {
         }
     };
 
+    // 3) Create
+    createAPI = async (form) => {
+        try {
+            const response = await api.createAPI(form);
+            alert(response.data.message);
+        } catch (e) {
+            console.log(e)
+        } finally {
+            window.location.reload();
+        }
+    };
+
+
     componentDidMount() {
         this.readAPI(this.state.dt, this.state.region);
     };
 
+
+
+    // Prev / Next Handler
     handlePrev = () => {
         const dt = this.state.dt;
         const prevDT = moment(dt, 'YYYYMMDD').subtract(1,'days').format('YYYYMMDD');
@@ -116,17 +133,8 @@ class ViewerTemplate extends Component {
         });
     }
 
-    createAPI = async (form) => {
-        try {
-            const response = await api.createAPI(form);
-            alert(response.data.message);
-        } catch (e) {
-            console.log(e)
-        } finally {
-            window.location.reload();
-        }
-    };
 
+    // Buttons for Add / Update / Remove
     onAdd = () => {
         // <Route path='/add' component={Adder}/>
         this.props.history.push("/add")

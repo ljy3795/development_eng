@@ -9,14 +9,14 @@ import './Adder.css';
 // Route in Route
 class Viewer extends Component {
     static defaultProps = {
-        dt : '',
-        region : '',
-        no2 : '',
-        o3 : '',
-        co : '',
-        so2 : '',
-        pm10 : '',
-        pm25 : '',
+        dt : 'YYYYMMDD',
+        region : '지역',
+        no2 : 0,
+        o3 : 0,
+        co : 0,
+        so2 : 0,
+        pm10 : 0,
+        pm25 : 0,
     }
 
     state = {
@@ -44,14 +44,14 @@ class Viewer extends Component {
         this.props.onCreate(this.state);
         // 상태초기화
         this.setState({
-            dt : '',
-            region : '',
-            no2 : '',
-            o3 : '',
-            co : '',
-            so : '',
-            pm10 : '',
-            pm25 : '',
+            dt : 'YYYYMMDD',
+            region : '지역',
+            no2 : 0,
+            o3 : 0,
+            co : 0,
+            so : 0,
+            pm10 : 0,
+            pm25 : 0,
         })
     }
 
@@ -77,6 +77,7 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="dt"
+                                        placeholder={this.state.dt}
                                         value={this.state.dt}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>
@@ -84,13 +85,15 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="region"
+                                        placeholder={this.state.region}
                                         value={this.state.region}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>
                             </td>
                             <td>
-                                <input  type="text"
+                                <input  type="number"
                                         name="no2"
+                                        placeholder={this.state.no2}
                                         value={this.state.no2}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>
@@ -98,6 +101,7 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="o3"
+                                        placeholder={this.state.o3}
                                         value={this.state.o3}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>
@@ -105,6 +109,7 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="co"
+                                        placeholder={this.state.co}
                                         value={this.state.co}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>
@@ -112,6 +117,7 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="so2"
+                                        placeholder={this.state.so2}
                                         value={this.state.so2}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>
@@ -119,6 +125,7 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="pm10"
+                                        placeholder={this.state.pm10}
                                         value={this.state.pm10}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>
@@ -126,6 +133,7 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="pm25"
+                                        placeholder={this.state.pm25}
                                         value={this.state.pm25}
                                         onChange={this.handleChange}
                                         style={{width: "9.5vw"}}/>

@@ -17,7 +17,7 @@ func ReadHandler(c *gin.Context) {
 
 	res, err := clients.SelectRow(dt, region)
 
-	// c.Header("Access-Control-Allow-Origin", "*")
+	// c.Header("Access-Control-Allow-Origin", "*") // CORS 서버에 요청하고 맞으면 server에서 추가
 	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
@@ -81,17 +81,19 @@ func CreateHandler(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Successfully Added",
 		})
-	} else {
-		err := clients.UpdateRow(row)
-		// err를 보고 client or server 이슈에 따라 code 다르게
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"message": err.Error(),
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "New Row is Successfully Updated",
-			})
-		}
+		return
 	}
+
+	err = clients.UpdateRow(row)
+	// err를 보고 client or server 이슈에 따라 code 다르게
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "New Row is Successfully Updated",
+	})
 }

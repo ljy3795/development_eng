@@ -21,7 +21,8 @@ func main() {
 	// 0) Backfill
 	backfillStartDate := time.Now().AddDate(0, 0, -1)
 	backfillCounts := 10
-	utils.BackfillAPICall(backfillStartDate, backfillCounts)
+	utils.BackfillAPICall(backfillStartDate, backfillCounts) // service (utils는 시스템적인 (ex. 시간프로세싱))
+	// 얘는 기능적
 
 	// 1) Scheduler for daily API Call (everyday on 9am)
 	cronInput := "0 8 * * *"
@@ -36,6 +37,7 @@ func main() {
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"http://localhost:3000"}
 	r.Use(cors.New(config))
+	//router.Use(cors.Default())
 
 	r.GET("/api/read/:dt/:region", controller.ReadHandler) // view/20200101/강남구
 	r.POST("/api/delete/:dt/:region", controller.DeleteHandler)

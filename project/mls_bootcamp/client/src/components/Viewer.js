@@ -1,10 +1,12 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import moment from 'moment';
 
 // Route in Route
 const Viewer = ({dt, region, no2, o3, co, so2, pm10, pm25}) => {
+    console.log(dt)
     return (
-        <Table striped bordered hover>
+        <Table striped bordered hover style={{'text-align':'center'}}>
             <thead>
                 <tr>
                 <th>Date</th>
@@ -19,7 +21,7 @@ const Viewer = ({dt, region, no2, o3, co, so2, pm10, pm25}) => {
             </thead>
             <tbody>
                 <tr>
-                    <td style={{width: "9.5vw"}}>{dt}</td>
+                    <td style={{width: "9.5vw"}}>{dt!==undefined && moment(dt,'YYYYMMDD').format("YYYY.MM.DD")}</td>
                     <td style={{width: "9.5vw"}}>{region}</td>
                     <td style={{width: "9.5vw"}}>{no2}</td>
                     <td style={{width: "9.5vw"}}>{o3}</td>

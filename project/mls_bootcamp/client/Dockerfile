@@ -12,11 +12,12 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 COPY package.json /app/package.json
+# package.json에 있는 거 설치 (nodejs만 있는 곳에서)
 RUN npm install --silent
 RUN npm install react-scripts -g --silent
 
 # start app
 CMD ["yarn", "start"]
 
-
+# volumne마운트 잘 안함
 # docker run -d -p 3000:3000 --rm -v ${PWD}:/app -v /app/node_modules --name go-mls-bootcamp-react mls-bootcamp-react:latest

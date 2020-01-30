@@ -7,6 +7,7 @@
     padding-right: 10vh;
     font-size: 20px;
     color: white;
+    box-sizing: border-box;
 }
   
 .ViewerTemplate-Button {

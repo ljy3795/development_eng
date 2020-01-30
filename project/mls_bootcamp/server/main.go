@@ -6,81 +6,42 @@ import (
 	"os"
 	"time"
 
-	"mls_bootcamp/clients"
 	"mls_bootcamp/controller"
-	"mls_bootcamp/services"
+	"mls_bootcamp/utils"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/robfig/cron"
 )
 
-// Logger
 var myLogger *log.Logger
 
-func dailyAPICall() {
-	apiCallDate := time.Now()
-
-	startPage := 1
-	endPage := 1000
-
-	_, _, rows, err := services.GetFromAPI(startPage, endPage, apiCallDate)
-	if err != nil {
-		log.Fatal(err.Error())
-		return
-	}
-
-	// 2) DB에 적재
-	insertedRows := services.InsertAPIRows(rows)
-	myLogger.Printf("%d row inserted.\n", insertedRows)
-	myLogger.Println(apiCallDate.Format("20060102"), " is done")
-}
-
 func main() {
-	// myLogger = log.New(os.Stdout, "Info: ", log.LstdFlags)
 	myLogger = log.New(os.Stdout, "INFO : ", log.Ldate|log.Ltime|log.Lshortfile)
-
-	DB := clients.DB
-	defer DB.Close()
 
 	// 0) Backfill
 	backfillStartDate := time.Now().AddDate(0, 0, -1)
-	backfillCounts := 30
-
-	for i := 0; i < backfillCounts; i++ {
-		startPage := 1
-		endPage := 1000
-
-		_, _, rows, err := services.GetFromAPI(startPage, endPage, backfillStartDate)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-
-		insertedRows := services.InsertAPIRows(rows)
-		myLogger.Printf("%d row inserted.\n", insertedRows)
-		myLogger.Println(backfillStartDate.Format("20060102"), " is done")
-		backfillStartDate = backfillStartDate.AddDate(0, 0, -1)
-	}
+	backfillCounts := 60
+	utils.BackfillAPICall(backfillStartDate, backfillCounts) // service (utils는 시스템적인 (ex. 시간프로세싱))
+	// 얘는 기능적
 
 	// 1) Scheduler for daily API Call (everyday on 9am)
-	c := cron.New()
-	c.AddFunc("0 8 * * *", func() {
-		dailyAPICall()
-	})
-	c.Start()
+	cronInput := "0 8 * * *"
+	utils.DailyCronAPI(cronInput)
 
 	// 2) Web Handler
-	// logger
 	f, _ := os.Create("gin.log")
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
-	// web
 	r := gin.Default()
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	r.Use(cors.New(config))
+	//router.Use(cors.Default())
 
 	r.GET("/api/read/:dt/:region", controller.ReadHandler) // view/20200101/강남구
 	r.POST("/api/delete/:dt/:region", controller.DeleteHandler)
 	r.POST("/api/create", controller.CreateHandler)
 
 	r.Run(":8080")
-
-	defer c.Stop()
 }

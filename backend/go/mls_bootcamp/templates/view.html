@@ -1,0 +1,84 @@
+ 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Viewer</title>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+        
+        table {
+            border-collapse: collapse;
+            border: 2px solid rgb(200,200,200);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        td, th {
+            border: 1px solid rgb(190,190,190);
+            padding: 10px 20px;
+        }
+
+        th {
+            background-color: rgb(235,235,235);
+        }
+
+        td {
+            text-align: center;
+        }
+
+        tr:nth-child(even) td {
+            background-color: rgb(250,250,250);
+        }
+
+        tr:nth-child(odd) td {
+            background-color: rgb(245,245,245);
+        }
+
+        caption {
+            padding: 10px;
+        }
+    </style>
+    <!-- <link href="./template/minimal-table.css" rel="stylesheet" type="text/css"> -->
+  </head>
+  <body>
+    <h1>[View] 미세먼지 수치 : {{ .dt }}일,  {{ .region}} 지역</h1>
+
+    <table>
+      <tr>
+        <th>Region</th>
+        <th>NO2</th>
+        <th>O3</th>
+        <th>CO</th>
+        <th>SO2</th>
+        <th>PM10</th>
+        <th>PM25</th>
+      </tr>
+      <tr>
+        <td>{{.region}}</td>
+        <td>{{.no2}}</td>
+        <td>{{.o3}}</td>
+        <td>{{.co}}</td>
+        <td>{{.so2}}l</td>
+        <td>{{.pm10}}</td>
+        <td>{{.pm25}}</td>
+      </tr>
+    </table>
+
+
+    <form name="form" method="GET">
+      <input type="submit" name="edit" value="Edit" formaction="/edit/{{.org_dt}}/{{.region}}">
+    </form>
+
+    <form name="form" method="POST">
+        <input type="submit" name="delete" value="Delete"formaction="/delete/{{.org_dt}}/{{.region}}" onclick="return confirm('Are you sure you want to DELETE Really?')">
+    </form>
+
+    <form name="form" method="POST">
+      <input type="submit" name="add" value="ADD NEW" formaction="/add/{{.org_dt}}">
+    </form>
+    
+  </body>
+</html>

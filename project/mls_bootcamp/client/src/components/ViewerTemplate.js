@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Viewer from './Viewer';
-import Adder from './Adder';
+import Updater from './Updater';
 import Navigator from './Navigator';
 import moment from 'moment';
 import { ButtonToolbar, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
 import './ViewerTemplate.css';
@@ -25,12 +26,12 @@ class ViewerTemplate extends Component {
         {
             dt: '',
             region: '',
-            no2: '',
-            o3: '',
-            co: '',
-            so2: '',
-            pm10: '',
-            pm25: '',   
+            no2: 0,
+            o3: 0,
+            co: 0,
+            so2: 0,
+            pm10: 0,
+            pm25: 0,   
         },
         ]
         
@@ -49,6 +50,7 @@ class ViewerTemplate extends Component {
 
         } catch (e) {
             console.log(e)
+            alert("HTTP Status : " + e.response.status + ",  " + e.response.data.message)
         }
     };
 
@@ -64,35 +66,48 @@ class ViewerTemplate extends Component {
         }
     };
 
+    // 3) Create
+    createAPI = async (form) => {
+        try {
+            const response = await api.createAPI(form);
+            alert(response.data.message);
+        } catch (e) {
+            console.log(e)
+        }
+    };
+
+
     componentDidMount() {
         this.readAPI(this.state.dt, this.state.region);
     };
 
+
+
+    // Prev / Next Handler
     handlePrev = () => {
-        const dt = this.state.dt;
-        const prevDT = moment(dt, 'YYYYMMDD').subtract(1,'days').format('YYYYMMDD');
+        const prevDT = moment(this.state.dt, 'YYYYMMDD').subtract(1,'days').format('YYYYMMDD');
 
         this.setState({
-            dt : prevDT
+            dt : prevDT,
         });
-        const newPath = "/view/" + this.state.dt + "/" + this.state.region
+
+        const newPath = "/view/" + prevDT + "/" + this.state.region
         this.props.history.push(newPath)
-        this.readAPI(this.state.dt, this.state.region);
-        // window.location.reload();
+        window.location.reload();
+        // this.readAPI(this.state.dt, this.state.region);
     };
 
     handleNext = () => {
-        const dt = this.state.dt;
-        const nextDT = moment(dt, 'YYYYMMDD').add(1,'days').format('YYYYMMDD');
-        // <Redirect to='/view/20191231/강남구'/>
+        const nextDT = moment(this.state.dt, 'YYYYMMDD').add(1,'days').format('YYYYMMDD');
 
         this.setState({
             dt : nextDT
         });
-        const newPath = "/view/" + this.state.dt + "/" + this.state.region
+
+        const newPath = "/view/" + nextDT + "/" + this.state.region
         this.props.history.push(newPath)
-        this.readAPI(this.state.dt, this.state.region);
-        // window.location.reload();
+        window.location.reload();
+        // this.readAPI(this.state.dt, this.state.region);
     };
 
     handleCreate = (data) => {
@@ -108,38 +123,17 @@ class ViewerTemplate extends Component {
 
         this.createAPI(form)
 
-        console.log(this.state.isUpdate)
         this.setState({
             isUpdate: false,
-        }, function () {
-            console.log(this.state.isUpdate);
         });
     }
 
-    createAPI = async (form) => {
-        try {
-            const response = await api.createAPI(form);
-            alert(response.data.message);
-        } catch (e) {
-            console.log(e)
-        } finally {
-            window.location.reload();
-        }
-    };
 
-    onAdd = () => {
-        // <Route path='/add' component={Adder}/>
-        this.props.history.push("/add")
-        window.location.reload();
-
-        alert('Go to ADD Page!');
-    };
-
+    // Buttons for Add / Update / Remove
     onUpdate = () => {
         this.setState({
             isUpdate: true,
         })
-        alert('Go to Update Page!');
     };
 
 
@@ -156,7 +150,7 @@ class ViewerTemplate extends Component {
             return (
                 <div className="ViewerTemplate">
                     <div className="ViewerTemplate-Table">
-                        <Adder 
+                        <Updater 
                             onCreate={this.handleCreate}
                             dt={dt}
                             region={region}
@@ -170,40 +164,43 @@ class ViewerTemplate extends Component {
                     </div>
                 </div>
             );
-        } else {
-            return (
-                <div className="ViewerTemplate">
-                    <div>
-                        <Navigator
-                            onPrev={this.handlePrev}
-                            onNext={this.handleNext}
-                        />
-                    </div>
-                    <div className="ViewerTemplate-Table">
-                        <Viewer 
-                            dt={dt}
-                            region={region}
-                            no2={no2}
-                            o3={o3}
-                            co={co}
-                            so2={so2}
-                            pm10={pm10}
-                            pm25={pm25}
-                        />
-                    </div>
-                    <div className="ViewerTemplate-Button">
-                        <ButtonToolbar>
-                            <Button variant="primary" onClick={this.onAdd}>Add</Button>
-                            <Button variant="warning" onClick={this.onUpdate}>Update</Button>
-                            <Button variant="secondary" onClick={this.onRemove}>Remove</Button>
-                        </ButtonToolbar>
-                    </div>
+        } 
+
+        return (
+            <div className="ViewerTemplate">
+                <div>
+                    <Navigator
+                        onPrev={this.handlePrev}
+                        onNext={this.handleNext}
+                    />
                 </div>
+                <div className="ViewerTemplate-Table">
+                    <Viewer 
+                        dt={dt}
+                        region={region}
+                        no2={no2}
+                        o3={o3}
+                        co={co}
+                        so2={so2}
+                        pm10={pm10}
+                        pm25={pm25}
+                    />
+                </div>
+                <div className="ViewerTemplate-Button">
+                    <ButtonToolbar>
+                        <Link to ="/add">
+                            <Button variant="primary">Add</Button>
+                        </Link>
+                        {dt !== undefined &&
+                            <Button variant="warning" onClick={this.onUpdate}>Update</Button>
+                        }                            
+                        <Button variant="secondary" onClick={() => {if (window.confirm('Are you really sure to REMOVE this?')) this.onRemove() }}>Remove</Button>
+                    </ButtonToolbar>
+                </div>
+            </div>
             );
-        }
     }
 }
-
 
 
 export default ViewerTemplate;

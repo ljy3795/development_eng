@@ -3,34 +3,32 @@ import { Table, Button } from 'react-bootstrap';
 import './Adder.css';
 
 
-
-
-
 // Route in Route
-class Viewer extends Component {
-    static defaultProps = {
-        dt : '',
-        region : '',
-        no2 : '',
-        o3 : '',
-        co : '',
-        so2 : '',
-        pm10 : '',
-        pm25 : '',
-    }
-
+class Adder extends Component {
     state = {
-        dt : this.props.dt,
-        region : this.props.region,
-        no2 : this.props.no2,
-        o3 : this.props.o3,
-        co : this.props.co,
-        so2 : this.props.so2,
-        pm10 : this.props.pm10,
-        pm25 : this.props.pm25,
+        dt : "YYYYMMDD",
+        region : "지역",
+        no2 : 0,
+        o3 : 0,
+        co : 0,
+        so2 : 0,
+        pm10 : 0,
+        pm25 : 0,
+
+        dtValid: false,
     }
 
     handleChange = (e) => {
+        // YYYYMMDD(number) regexp
+        const dtTypeRegExp = /^\d{8}$/;
+
+        // input이 dt인 경우, regexp 확인
+        if (e.target.name === "dt" && e.target.value.match(dtTypeRegExp)){
+            this.setState({
+                dtValid: true,
+            })
+        } 
+
         this.setState({
             // input의 name속성을 이용해서 한번에 처리 (handler를 여러개 사용하지 않아도 됨)
             [e.target.name]:e.target.value 
@@ -40,26 +38,31 @@ class Viewer extends Component {
     handleSubmit = (e) => {
         // 페이지 리로딩 방지
         e.preventDefault(); // form에서는 submit을 하면 초기화 되기 때문에 초기화 방지
-        // 상태값을 onCreate하여 부모에게 전달
-        this.props.onCreate(this.state);
-        // 상태초기화
-        this.setState({
-            dt : '',
-            region : '',
-            no2 : '',
-            o3 : '',
-            co : '',
-            so : '',
-            pm10 : '',
-            pm25 : '',
-        })
+        // 상태값을 onCreate하여 부모에게 전달. 단 dt값이 valid할 경우
+        if (this.state.dtValid) {
+            this.props.onCreate(this.state);
+            // 상태초기화
+            this.setState({
+                dt : "YYYYMMDD",
+                region : "지역",
+                no2 : 0,
+                o3 : 0,
+                co : 0,
+                so2 : 0,
+                pm10 : 0,
+                pm25 : 0,
+
+                dtValid : false,
+            })
+        } else {
+            alert("Date type should be 'YYYYMMDD' in number")
+        }
     }
 
     render(){
-        // console.log(this.state)
         return(
             <form onSubmit={this.handleSubmit}>
-                <Table striped bordered hover>
+                <Table striped bordered hover style={{textAlign:'center', width:'100%'}}>
                     <thead>
                         <tr>
                         <th>Date</th>
@@ -77,58 +80,72 @@ class Viewer extends Component {
                             <td>
                                 <input  type="text"
                                         name="dt"
-                                        value={this.state.dt}
+                                        placeholder={this.state.dt}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required
+                                        style={{width:'100%'}}/>
                             </td>
                             <td>
                                 <input  type="text"
                                         name="region"
-                                        value={this.state.region}
+                                        placeholder={this.state.region}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required
+                                        style={{width:'100%'}}/>
                             </td>
                             <td>
-                                <input  type="text"
+                                <input  type="number"
                                         name="no2"
-                                        value={this.state.no2}
+                                        step="0.001"
+                                        placeholder={this.state.no2}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required
+                                        style={{width:'100%'}}/>
                             </td>
                             <td>
-                                <input  type="text"
+                                <input  type="number"
                                         name="o3"
-                                        value={this.state.o3}
+                                        step="0.001"
+                                        placeholder={this.state.o3}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required                                        
+                                        style={{width:'100%'}}/>
                             </td>
                             <td>
-                                <input  type="text"
+                                <input  type="number"
                                         name="co"
-                                        value={this.state.co}
+                                        step="0.001"
+                                        placeholder={this.state.co}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required
+                                        style={{width:'100%'}}/>
                             </td>
                             <td>
-                                <input  type="text"
+                                <input  type="number"
                                         name="so2"
-                                        value={this.state.so2}
+                                        step="0.001"
+                                        placeholder={this.state.so2}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required
+                                        style={{width:'100%'}}/>
                             </td>
                             <td>
-                                <input  type="text"
+                                <input  type="number"
                                         name="pm10"
-                                        value={this.state.pm10}
+                                        step="0.001"
+                                        placeholder={this.state.pm10}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required
+                                        style={{width:'100%'}}/>
                             </td>
                             <td>
-                                <input  type="text"
+                                <input  type="number"
                                         name="pm25"
-                                        value={this.state.pm25}
+                                        step="0.001"
+                                        placeholder={this.state.pm25}
                                         onChange={this.handleChange}
-                                        style={{width: "9.5vw"}}/>
+                                        required
+                                        style={{width:'100%'}}/>
                             </td>
                         </tr>
                     </tbody>
@@ -143,4 +160,4 @@ class Viewer extends Component {
     }
 }
 
-export default Viewer;
+export default Adder;

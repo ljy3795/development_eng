@@ -285,4 +285,6 @@ yarn.lock
 
 
 venv
-env
+.env
+.*env
+

@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 // ReadHandler rederes view page retrieved by RDS SELECT query results
@@ -16,13 +17,13 @@ func ReadHandler(c *gin.Context) {
 
 	res, err := clients.SelectRow(dt, region)
 
-	c.Header("Access-Control-Allow-Origin", "*")
-	if err != nil && err.Error() != "record not found" {
+	// c.Header("Access-Control-Allow-Origin", "*") // CORS 서버에 요청하고 맞으면 server에서 추가
+	if err != nil && !gorm.IsRecordNotFoundError(err) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
-	} else if res == (models.AirQualityDaily{}) {
-		c.JSON(http.StatusBadRequest, gin.H{
+	} else if gorm.IsRecordNotFoundError(err) {
+		c.JSON(http.StatusNotFound, gin.H{
 			"message": "No Data!",
 		})
 	} else {
@@ -46,7 +47,6 @@ func DeleteHandler(c *gin.Context) {
 
 	err := clients.DeleteRow(dt, region)
 
-	c.Header("Access-Control-Allow-Origin", "*")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
@@ -64,7 +64,6 @@ func CreateHandler(c *gin.Context) {
 	dt := c.PostForm("dt")
 	region := c.PostForm("region")
 
-	// Error 받아서 redirect or JS에서 해결
 	no2, _ := strconv.ParseFloat(c.PostForm("no2"), 64)
 	o3, _ := strconv.ParseFloat(c.PostForm("o3"), 64)
 	co, _ := strconv.ParseFloat(c.PostForm("co"), 64)
@@ -73,26 +72,28 @@ func CreateHandler(c *gin.Context) {
 	pm25, _ := strconv.ParseFloat(c.PostForm("pm25"), 64)
 
 	// make struct to edit data
-	row := models.AirQualityDaily{DT: dt, REGION: region, NO2: no2, O3: o3, CO: co, SO2: so2, PM10: pm10, PM25: pm25}
+	row := models.AirQualityDaily{DT: dt, Region: region, NO2: no2, O3: o3, CO: co, SO2: so2, PM10: pm10, PM25: pm25}
 
 	_, err := clients.SelectRow(dt, region)
 
-	c.Header("Access-Control-Allow-Origin", "*")
-	if err != nil && err.Error() == "record not found" {
+	if err != nil && gorm.IsRecordNotFoundError(err) {
 		clients.CreateNewRow(row)
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Successfully Added",
 		})
-	} else {
-		err := clients.UpdateRow(row)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"message": err.Error(),
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "New Row is Successfully Updated",
-			})
-		}
+		return
 	}
+
+	err = clients.UpdateRow(row)
+	// err를 보고 client or server 이슈에 따라 code 다르게
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "New Row is Successfully Updated",
+	})
 }

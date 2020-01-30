@@ -3,11 +3,11 @@
 ---
 
 ## Backend
-- **Go**
+- Go
 
 ---
 
 ## Frontend
-- **HTML / Javascript / CSS**
-- **React**
-- **Flask**
+- HTML / Javascript / CSS
+- React
+- Flask

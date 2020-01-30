@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"mls_bootcamp/controller"
-	"mls_bootcamp/utils"
+	"mls_bootcamp/services"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -21,12 +21,12 @@ func main() {
 	// 0) Backfill
 	backfillStartDate := time.Now().AddDate(0, 0, -1)
 	backfillCounts := 60
-	utils.BackfillAPICall(backfillStartDate, backfillCounts) // service (utils는 시스템적인 (ex. 시간프로세싱))
+	services.BackfillAPICall(backfillStartDate, backfillCounts) // service (utils는 시스템적인 (ex. 시간프로세싱))
 	// 얘는 기능적
 
 	// 1) Scheduler for daily API Call (everyday on 9am)
 	cronInput := "0 8 * * *"
-	utils.DailyCronAPI(cronInput)
+	services.DailyCronAPI(cronInput)
 
 	// 2) Web Handler
 	f, _ := os.Create("gin.log")

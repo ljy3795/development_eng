@@ -20,7 +20,7 @@ func main() {
 
 	// 0) Backfill
 	backfillStartDate := time.Now().AddDate(0, 0, -1)
-	backfillCounts := 10
+	backfillCounts := 60
 	utils.BackfillAPICall(backfillStartDate, backfillCounts) // service (utils는 시스템적인 (ex. 시간프로세싱))
 	// 얘는 기능적
 

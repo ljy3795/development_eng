@@ -66,8 +66,7 @@
     ├── models
     │   └── models.go
     ├── services
-    │   └── api_call.go
-    └── utils
+        ├── api_call.go
         ├── backfill.go
         └── scheduler.go
   ```

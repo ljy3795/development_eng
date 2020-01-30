@@ -61,7 +61,7 @@ class AdderTemplate extends Component {
         } finally {
             const newPath = "/view/" + this.state.dt + "/" + this.state.region
             this.props.history.push(newPath)
-            window.location.reload();
+            // window.location.reload();
         }
     };
 

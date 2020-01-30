@@ -33,7 +33,7 @@ class Updater extends Component {
     render(){
         return(
             <form onSubmit={this.handleSubmit}>
-                <Table striped bordered hover style={{'text-align':'center'}}>
+                <Table striped bordered hover style={{textAlign:'center'}}>
                     <thead>
                         <tr>
                         <th>Date</th>

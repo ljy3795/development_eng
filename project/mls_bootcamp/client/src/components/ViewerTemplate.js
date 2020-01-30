@@ -73,8 +73,6 @@ class ViewerTemplate extends Component {
             alert(response.data.message);
         } catch (e) {
             console.log(e)
-        } finally {
-            window.location.reload();
         }
     };
 

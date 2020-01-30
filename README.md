@@ -35,22 +35,131 @@
 ## Assignment
 - Build a simple service of PM2.5(초미세먼지) using SEOUL Open API
 - With three microservices of DB / Backend(Go / Gin) / Frotnend(React) with Docker Containers
+<br>
+<img src="https://user-images.githubusercontent.com/25445292/73420509-136f2e00-4366-11ea-90d9-f105e5cdaaf5.png" width="50%"/>
+<br>
 
+#### Step 1. (~1/15)
+- DB (MariaDB) / Backend (Go & Gin) / Frontend (HTML on Go)
+  - Tentative result without *REACT* frontend
+  - http_controller.go connected to REST API renders HTML files (No frontend server)
+- [Code Branch : mls-bootcamp-html](https://github.com/ljy3795/development_eng/blob/go_html_mls)
 
+#### Step 2. (~1/30)
+- DB (MariaDB) / Backend (Go & Gin) / Frontend (HTML on Go)
 
-#### Step 1. 
-- DB()
-DB (RDS) / Backend (Go) / Frontend (HTML on Go)
-- Branch (https://github.com/ljy3795/development_eng/blob/go_html_mls/README.md)
+### Details
+**Backend**
+  - **structure**
+  ```
+      .
+    ├── Dockerfile
+    ├── clients
+    │   └── rds.go
+    ├── controller
+    │   └── http_controller.go
+    ├── docker_run.sh
+    ├── gin.log
+    ├── go.mod
+    ├── go.sum
+    ├── main.go
+    ├── models
+    │   └── models.go
+    ├── services
+    │   └── api_call.go
+    └── utils
+        ├── backfill.go
+        └── scheduler.go
+  ```
+  - **API**
+    - *READ*
+      ```
+      [GET] /api/read/:dt/:region (ex. /api/read/20200115/강남구)
+      ```
+    - *DELETE*
+      ```
+      [POST] /api/delete/:dt/:region (ex. /api/delete/20200115/강남구)
+      ```
+    - *CREATE*
+      ```
+      [POST] /api/create (Receive a form data and insert to DB)
+      ```
+  - **Local Run**
+    ```
+      # 1) SET .env 
+      $ SEOURL_API_KEY=${API_KEY}
+      $ MARIADB_USER=${USER}
+      $ MARIADB_PASS=${PASS}
+      $ MARIADB_ADDR=${ADDR}
+      $ MARIADB_PORT=${PORT}
 
-#### Step 2. 
-- DB (RDS) / Backend (Go) / Frontend (React)
+      # 2) Run docker container(application)
+      $ ./server/docker_run.sh
+      
+      # Could be accessed through 8080 port 
+    ```
+    
+<br>
 
-- DB Spec
-- Backend 
-  - Tree structure
-  - four API services
-- Frontend
+**Frontend**
+  - **Structure**(src)  
+  ```
+      .
+    ├── client
+    │   └── Root.js
+    ├── components
+    │   ├── Adder.css
+    │   ├── Adder.js
+    │   ├── AdderTemplate.css
+    │   ├── AdderTemplate.js
+    │   ├── HomeViewer.js
+    │   ├── Navigator.css
+    │   ├── Navigator.js
+    │   ├── Updater.js
+    │   ├── Viewer.js
+    │   ├── ViewerTemplate.css
+    │   └── ViewerTemplate.js
+    ├── index.css
+    ├── index.js
+    ├── lib
+    │   └── api.js
+    ├── serviceWorker.js
+    ├── setupTests.js
+    └── shared
+        ├── App.css
+        └── App.js
+  ```
+  - **Route**
+    - *Home*
+      ```
+      Path : "/"
+      Actions : 
+        - Call Viewer Page with key values(dt / region) 
+        - Add a new row
+      ```
+    - *Viewer*
+      ```
+      Path : "/view/:dt/:region"
+      Actions : 
+        - Rendering a view page
+        - Navigating prev/next date of a page
+        - Removing the selected row of the page
+        - Redireting to a Update page
+      ```
+    - *Adder*
+      ```
+      Path : "/add"
+      Actions : 
+        - Adding a new row with HTML inputs
+      ```
+  - **Local run**
+    ```
+      # 1) Run docker container(application)
+      $ ./client/docker_run.sh
+      
+      # Could be accessed through 3000 port 
+    ```
+
 
 ---
-### 느낀점
+#### 느낀점

@@ -20,7 +20,7 @@ class App extends Component {
             MLS-Bootcamp
           </div>
           <div className='App-footer'>
-            (by Colin, 2020.1.27)
+            (by Colin, 2020.1.30)
           </div>
 
           <BrowserRouter>

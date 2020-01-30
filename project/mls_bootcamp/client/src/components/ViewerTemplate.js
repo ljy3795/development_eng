@@ -139,6 +139,7 @@ class ViewerTemplate extends Component {
 
     onRemove = () => {
         this.deleteAPI(this.state.dt, this.state.region);
+        this.props.history.push("/")
     };
 
 

@@ -39,6 +39,7 @@
 
 #### Step 1. 
 - DB (RDS) / Backend (Go) / Frontend (HTML on Go)
+- Branch (https://github.com/ljy3795/development_eng/blob/go_html_mls/README.md)
 
 #### Step 2. 
 - DB (RDS) / Backend (Go) / Frontend (React)
